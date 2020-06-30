@@ -75,7 +75,8 @@ const MicroPage: FC<IProps> = props => {
       if (handleRouteAssert(currentRoute)) {
         const { title, path, url } = currentRoute;
         compEle =
-          _CACHE[path] || (_CACHE[path] = <Iframe key={path} title={title} pageSrc={url} />);
+          _CACHE[path] ||
+          (_CACHE[path] = <Iframe key={path} title={title} pageSrc={url} />);
       } else {
         const { path, component: Comp, props } = currentRoute;
         compEle =

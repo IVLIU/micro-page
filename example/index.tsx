@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import MicroPage from '../.';
+import MicroPage from '../src';
 import useSingleHistory from '../src/useSingleHistory';
 import Comp from './Comp';
 

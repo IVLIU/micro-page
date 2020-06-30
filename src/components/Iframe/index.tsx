@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, useMemo, useState, useEffect } from 'react';
 import { IProps } from './type';
-import styles from './index.less';
+import './index.less';
 
 const Iframe: FC<IProps> = props => {
   // props
@@ -18,7 +18,7 @@ const Iframe: FC<IProps> = props => {
   const rEle: ReactElement | null = useMemo(() => {
     return (
       <>
-        {isPending && <div className={styles['iframe-loading']} />}
+        {isPending && <div className="iframe-loading" />}
         <iframe
           title={title}
           frameBorder="0"

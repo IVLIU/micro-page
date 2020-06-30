@@ -7,7 +7,6 @@ module.exports = {
   rollup(config) {
     config.plugins.push(
       postcss({
-        modules: true,
         plugins: [
           autoprefixer(),
           cssnano({

@@ -13,7 +13,7 @@ import { createElement, resolvePath, matchPath } from './tool';
 import { IProps, TRoute, TRouteWithUrl, TRouteWithComponent } from './type';
 import { Iframe } from './components';
 import useSingleHistory from './useSingleHistory';
-import styles from './index.less';
+import './index.less';
 
 const _CACHE: {
   [key: string]: ReactElement<any, 'iframe'> | ComponentType;
@@ -113,7 +113,7 @@ const MicroPage: FC<IProps> = props => {
               transitionStyle = {};
           }
           return (
-            <div className={styles['mp-wrapper']} style={transitionStyle}>
+            <div className="mp-wrapper" style={transitionStyle}>
               {compEle}
             </div>
           );

@@ -31,7 +31,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "micro-page",
+  "name": "@ivliu/micro-page",
   "author": "鹈鹕",
   "module": "dist/micro-page.esm.js",
   "devDependencies": {

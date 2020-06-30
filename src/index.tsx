@@ -1,14 +1,13 @@
 import React, { FC, ReactElement, CSSProperties, ComponentType, useMemo, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { pathToRegexp } from 'path-to-regexp';
 import { Transition } from 'react-transition-group';
-import { createElement } from './tool';
+import { createElement, resolvePath, matchPath } from './tool';
 import { IProps, TRoute, TRouteWithUrl, TRouteWithComponent } from './type';
 import { Iframe } from './components'
 import useSingleHistory from './useSingleHistory';
 import styles from './index.less';
 
-const _CACHE: { [key: string]: ReactElement<any, 'iframe'> } = {};
+const _CACHE: { [key: string]: ReactElement<any, 'iframe'> | ComponentType } = {};
 
 const MicroPage: FC<IProps> = props => {
   // props
@@ -28,20 +27,23 @@ const MicroPage: FC<IProps> = props => {
       return;
     }
     h.listen(({ location }) => {
-      let currentRouteCursor = -1;
-      if(
-        routes.some(({ path }, idx) => {
-          const isMatch = pathToRegexp(path).test(location.pathname);
-          if(isMatch) {
-            currentRouteCursor = idx;
-          }
-          return isMatch;
-        })
-      ) {
-        setCurrentRoute(routes[currentRouteCursor]);
-        return;
+      let currentRoute: TRoute | null = null;
+      for(let route of routes) {
+        const { path, sensitive, exact, strict } = route;
+        const isMatch = resolvePath(path, [], { sensitive, strict, end: exact, }).test(location.pathname);
+        const match = matchPath(path, { decode: decodeURIComponent })(location.pathname);
+        if(isMatch) {
+          currentRoute = route;
+        }
+        if(match) {
+          const { params } = match;
+          currentRoute = { ...currentRoute, props: params } as TRoute;
+        }
+        if(isMatch || match) {
+          break;
+        }
       }
-      setCurrentRoute(null);
+      setCurrentRoute(currentRoute);
     })
   }, [])
   // react element
@@ -56,8 +58,8 @@ const MicroPage: FC<IProps> = props => {
         const { path, url } = currentRoute;
         compEle = _CACHE[path] || (_CACHE[path] = <Iframe key={path} pageSrc={url}  />)
       } else {
-        const { path, component: Comp } = currentRoute;
-        compEle = _CACHE[path] || (_CACHE[path] = <Comp key={path} />)
+        const { path, component: Comp, props } = currentRoute;
+        compEle = _CACHE[path] || (_CACHE[path] = <Comp key={path} {...props} />)
       }
       
     }

@@ -10,9 +10,10 @@ export interface IRouteMap {
   path: string;
   url: string;
   component: ComponentType;
-  author?: string;
+  sensitive?: boolean;
   exact?: boolean;
-  __RENDERED__?: boolean;
+  strict?: boolean;
+  props?: object;
 }
 
 export type TRouteWithUrl = Omit<IRouteMap, 'component'>;

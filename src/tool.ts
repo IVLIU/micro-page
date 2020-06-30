@@ -1,4 +1,10 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, } from "react";
+import { pathToRegexp, match, MatchFunction } from 'path-to-regexp';
+
+export type TArgs<F> = F extends (...args: infer A) => any ? A : never;
+
+export const __CACHE__: { [key: string]: RegExp } = {};
+export const __CACHE_MAX_LENGTH__ = 1000;
 
 export const createElement: <
   T extends keyof HTMLElementTagNameMap
@@ -15,4 +21,16 @@ export const createElement: <
   } catch (err) {
     return null;
   }
+}
+
+export const resolvePath: (...args: TArgs<typeof pathToRegexp>) => RegExp = (path, keys = [], options = {}) => {
+  const path$str = path.toString();
+  if(Object.keys(__CACHE__).length < __CACHE_MAX_LENGTH__) {
+    return __CACHE__[path$str] || (__CACHE__[path$str] = pathToRegexp(path, keys, options));
+  }
+  return pathToRegexp(path, keys, options);
+};
+
+export const matchPath: (...args: TArgs<typeof match>) => MatchFunction = (path, options) => {
+  return match(path, options)
 }

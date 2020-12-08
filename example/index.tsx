@@ -20,8 +20,6 @@ const App = () => {
       <MicroPage 
         portalId="#portal"
         routes={[
-          { title: '病情描述', path: '/consult', url: 'http://dev1.m.myweimai.com/new/fastconsult/index.html?businessId=undefined&activityId=&isPrice0=0&skuId=64&doctorId=117013&businessType=1000&doctorUserId=910700000055295599' },
-          { title: '医生列表', path: '/doctorlist', url: 'http://dev1.m.myweimai.com/new/dpr/doctorlist.html' },
           { title: '自定义组件', path: '/comp/:id', component: Comp }
         ]}
       />
